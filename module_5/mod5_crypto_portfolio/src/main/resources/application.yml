@@ -1,0 +1,33 @@
+server:
+  port: 8080
+#  ssl:
+#    key-store-password: password
+#    key-store: classpath:keystore.p12
+#    key-store-type: PKCS12
+#    key-alias: tomcat
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  security:
+    oauth2:
+      client:
+        registration:
+          crypto-portfolio:
+            client-id: crypto-portfolio
+            client-secret: c796d57b-e5a5-4337-bad8-3a48618f4332
+            client-name:  Crypto Potfolio
+            redirect-uri: http://localhost:8080/login/oauth2/code/crypto-portfolio
+            authorization-grant-type: authorization_code
+            scope: openid
+            provider: keycloak
+        provider:  
+         keycloak:            
+            issuer-uri: http://localhost:8081/auth/realms/CryptoPortfolio            
+            
+   
+logging:
+  level:
+    root: INFO
+    com.memorynotfound: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO

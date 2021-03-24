@@ -1,0 +1,28 @@
+server:
+  port: 8080
+#  ssl:
+#    key-store-password: password
+#    key-store: classpath:keystore.p12
+#    key-store-type: PKCS12
+#    key-alias: tomcat
+spring:
+  main:    allow-bean-definition-overriding: true
+  security:
+    oauth2:
+      client:
+        registration:
+          facebook:
+            client-id: 
+            client-secret: 
+            scope:            - public_profile
+            - email
+            - user_friends
+          google:
+            client-id:     
+            client-secret: 
+logging:
+  level:
+    root: INFO
+    com.memorynotfound: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
