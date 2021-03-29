@@ -1,26 +1,19 @@
 package com.pluralsight.security.configuration;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.oauth2.client.oidc.web.logout.OidcClientInitiatedLogoutSuccessHandler;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
-
-import com.pluralsight.security.handler.CustomAuthorizationRequestResolver;
 
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	private final ClientRegistrationRepository clientRegistrationRepository;
+	private final LogoutHandler logoutHandler;
 	
-	public SecurityConfiguration(ClientRegistrationRepository clientRegistrationRepository) {
-		this.clientRegistrationRepository=clientRegistrationRepository;
+	public SecurityConfiguration(LogoutHandler logoutHandler) {
+		this.logoutHandler=logoutHandler;
 	}
 	
 	@Override
@@ -30,15 +23,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 			.and()
 			.authorizeRequests()
+				.mvcMatchers("/login").permitAll()
 				.anyRequest().authenticated()
 			.and()
 				.oauth2Login()
-					.authorizationEndpoint()
-						.authorizationRequestResolver(new CustomAuthorizationRequestResolver(this.clientRegistrationRepository))
-					.and()
-						.loginPage("/oauth2/authorization/crypto-portfolio")
+					.loginPage("/oauth2/authorization/crypto-portfolio")
 				.and()
-			.logout()
+			.logout().addLogoutHandler(this.logoutHandler)
 		.logoutUrl("/api/logout");
 	}
 

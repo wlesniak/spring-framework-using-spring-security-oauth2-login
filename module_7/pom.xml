@@ -20,5 +20,7 @@
 
 	<modules>
 		<module>mod7_crypto_portfolio</module>
+	<module>mod7_crypto_portfolio_react</module>
+
 	</modules>
 </project>
