@@ -18,19 +18,14 @@ public class UserRegistrationService {
 
 	private final UserRepository userRepository;
 	private final PortfolioRepository portfolioRepository;
-	private final PasswordEncoder passwordEncoder;
-	private final ApplicationEventPublisher eventPublisher;
 	
-	public UserRegistrationService(UserRepository userRepository, PortfolioRepository portfolioRepository,
-			@Lazy PasswordEncoder passwordEncoder, ApplicationEventPublisher eventPublisher) {
+	public UserRegistrationService(UserRepository userRepository, PortfolioRepository portfolioRepository) {
 		this.userRepository = userRepository;
 		this.portfolioRepository = portfolioRepository;
-		this.passwordEncoder = passwordEncoder;
-		this.eventPublisher = eventPublisher;
 	}
 	
 	public void registerNewUser(UserRegistrationRequest userRegistrationRequest) {
-		CryptoUser cryptoUser = new CryptoUser(userRegistrationRequest, passwordEncoder);
+		CryptoUser cryptoUser = new CryptoUser(userRegistrationRequest);
 		userRepository.save(cryptoUser);
 		portfolioRepository.save(new Portfolio(userRegistrationRequest.getUsername(), Collections.EMPTY_LIST));
 	}

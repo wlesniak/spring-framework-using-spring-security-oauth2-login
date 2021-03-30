@@ -20,11 +20,9 @@ import com.pluralsight.security.service.UserRegistrationService;
 public class WebApplication {
 
 	private final CryptoCurrencyRepository cryptoRepository;
-	private final UserRegistrationService userRegistrationService;
 	
-	public WebApplication(CryptoCurrencyRepository cryptoRepository,UserRegistrationService userRegistrationService) {
+	public WebApplication(CryptoCurrencyRepository cryptoRepository) {
 		this.cryptoRepository = cryptoRepository;
-		this.userRegistrationService=userRegistrationService;
 	}
 
 	@EventListener(ApplicationReadyEvent.class)
@@ -33,12 +31,6 @@ public class WebApplication {
 		CryptoCurrency litecoin = new CryptoCurrency("LTC", "Litecoin");
 		cryptoRepository.save(bitcoin);
 		cryptoRepository.save(litecoin);
-		UserRegistrationRequest regRequest = new UserRegistrationRequest();
-		regRequest.setUsername("victoria");
-		regRequest.setFirstname("Victoria");
-		regRequest.setLastname("Smith");
-		regRequest.setEmail("vic@email.com");
-		this.userRegistrationService.registerNewUser(regRequest);
 	}
 	
 	public static void main(String[] args) {

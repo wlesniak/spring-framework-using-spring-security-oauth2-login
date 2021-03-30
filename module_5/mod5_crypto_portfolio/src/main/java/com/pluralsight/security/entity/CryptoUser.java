@@ -5,7 +5,6 @@ import javax.validation.constraints.Email;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.pluralsight.security.model.UserRegistrationRequest;
 
@@ -23,7 +22,7 @@ public class CryptoUser {
 		
 		public CryptoUser() {}
 		
-		public CryptoUser(UserRegistrationRequest userRegistration, PasswordEncoder passwordEncoder) {
+		public CryptoUser(UserRegistrationRequest userRegistration) {
 			this.username=userRegistration.getUsername();
 			this.email=userRegistration.getEmail();
 			this.firstName=userRegistration.getFirstname();

@@ -38,43 +38,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		successHandler.setPostLogoutRedirectUri("http://localhost:8080/");
 		return successHandler;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	//@Override
-	protected void configure2(HttpSecurity http) throws Exception {
-		http
-			.authorizeRequests()
-				.anyRequest().authenticated()
-				.and()
-				.oauth2Login()
-					.loginPage("/oauth2/authorization/crypto-portfolio")
-					.successHandler(this.authenticationSuccessHandler)
-					.authorizationEndpoint()
-						.authorizationRequestResolver(new CustomAuthorizationRequestResolver(clientRegistrationRepository))
-					.and()
-					.and()
-				.logout()
-					.logoutSuccessHandler(oidcLogoutSuccessHandler());				
-	}
-
-//    private OidcClientInitiatedLogoutSuccessHandler oidcLogoutSuccessHandler() { 
-//        OidcClientInitiatedLogoutSuccessHandler successHandler = new OidcClientInitiatedLogoutSuccessHandler(clientRegistrationRepository);
-//        successHandler.setPostLogoutRedirectUri("http://localhost:8080/");
-//        return successHandler;
-//    }	
     
 }

@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,14 +54,14 @@ public class PortfolioController {
 	}
 	
 	@GetMapping(value = {"/portfolio/transactions","/portfolio/transactions/{symbol}"})
-	public List<TransactionDetailsDto> getTransactionDetails(@PathVariable Optional<String> symbol,Principal principal) {
-		String username = principal.getName();
-		ListTransactionsDto transactions = portfolioService.getPortfolioTransactionsForUser(username);
+	public List<TransactionDetailsDto> getTransactionDetails(@PathVariable Optional<String> symbol,@AuthenticationPrincipal OidcUser principal) {
+		ListTransactionsDto transactions = portfolioService.getPortfolioTransactionsForUser(principal.getSubject());		
 		if(symbol.isPresent()) {
 			return  transactions.getTransactions().stream().filter(trans -> symbol.get().equals(trans.getSymbol())).collect(Collectors.toList());
 		} 
 		return transactions.getTransactions();
 	}
+	
 	
 	@PostMapping("/portfolio/transactions")
 	public void addTransactionToPortfolio(@RequestBody AddTransactionToPortfolioDto request,Principal principal) {

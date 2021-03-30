@@ -23,7 +23,7 @@ public class CryptoUser {
 		
 		public CryptoUser() {}
 		
-		public CryptoUser(UserRegistrationRequest userRegistration, PasswordEncoder passwordEncoder) {
+		public CryptoUser(UserRegistrationRequest userRegistration) {
 			this.username=userRegistration.getUsername();
 			this.email=userRegistration.getEmail();
 			this.firstName=userRegistration.getFirstname();
